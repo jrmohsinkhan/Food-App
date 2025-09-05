@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Food App</string>
+    <string name="next_button">Next</string>
+    <string name="app_tagline">Dliever Favorite Food</string>
+    <string name="designer_credits">Designed by \n Mohsin</string>
+    <string name="login_title">Login to your Account</string>
+    <string name="facebook">Facebook</string>
+    <string name="google">Google</string>
+    <string name="signup_title">Sign Up Here</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="name">Name</string>
+    <string name="already_have_an_account">Already have an Account?</string>
+    <string name="sign_up_with">Sign Up With</string>
+    <string name="create_account">Create Account</string>
+    <string name="continue_with">Continue With</string>
+    <string name="or">Or</string>
+    <string name="dont_have_account">Don’t Have Account?</string>
+    <string name="choose_your_location">Choose Your Location</string>
+    <string name="location_description">To provide you with the best dining experience, we need your permission to access your device\'s location. By enabling location services, we can offer personalized restaurant recommendations, accurate delivery estimates, and ensure a seamless food delivery experience.\"</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="main_title">Explore Your Favorite Food</string>
+    <string name="view_menu">View Menu</string>
+    <string name="popular">Popular</string>
+    <string name="cart_title">Cart</string>
+    <string name="proceed_button">Proceed</string>
+    <string name="menu">Menu</string>
+    <string name="search">Search</string>
+    <string name="search_query">What do you want to order?</string>
+</resources>
