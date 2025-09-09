@@ -8,5 +8,6 @@
     <color name="iconColor">#FEAD1D</color>
     <color name="socialButton">#F4F4F4</color>
     <color name="socialText">#09051C</color>
+    <color name="circleColor">#4BFF5D</color>
 
 </resources>
