@@ -22,6 +22,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.notifications.setOnClickListener {
+            val bottomSheetDialog = Notification()
+            bottomSheetDialog.show(supportFragmentManager, "Notifications")
+        }
+
         var NavController = findNavController(R.id.main_fragment)
         var bottomNav = binding.bottomNavigationView
         bottomNav.setupWithNavController(NavController)

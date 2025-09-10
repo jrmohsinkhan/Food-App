@@ -33,4 +33,6 @@
     <string name="previously_buy">Previously Buy</string>
     <string name="address">Lorem ipsum is placeholder text commonly used in the graphic, print, and publishing industries for previewing layouts and visual</string>
     <string name="save_information">Save Information</string>
+    <string name="new_notification">New Notification</string>
+    <string name="notifications">Notifications</string>
 </resources>
