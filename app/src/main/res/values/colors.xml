@@ -9,5 +9,6 @@
     <color name="socialButton">#F4F4F4</color>
     <color name="socialText">#09051C</color>
     <color name="circleColor">#4BFF5D</color>
+    <color name="unactiveTextColor">#3B3B3B</color>
 
 </resources>
