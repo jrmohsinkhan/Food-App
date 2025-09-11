@@ -8,6 +8,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 
 
 class SplashScreen : AppCompatActivity() {
@@ -17,9 +19,18 @@ class SplashScreen : AppCompatActivity() {
         setContentView(R.layout.activity_splash_screen)
 
         Handler(Looper.getMainLooper()).postDelayed({
-            val intent = Intent(this, StartScreen::class.java)
-            startActivity(intent)
-            finish()
+            val currentUser = Firebase.auth.currentUser
+            if (currentUser != null ){
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+            }
+            else
+            {
+                val intent = Intent(this, StartScreen::class.java)
+                startActivity(intent)
+                finish()
+            }
+
         }, 3000)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->

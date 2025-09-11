@@ -35,7 +35,7 @@ class Notification : BottomSheetDialogFragment() {
 
         val images = mutableListOf<Int>(
             R.drawable.sademoji,
-            R.drawable.congratulation,
+            R.drawable.congrats,
             R.drawable.truck
         )
         val messages = mutableListOf<String>(
