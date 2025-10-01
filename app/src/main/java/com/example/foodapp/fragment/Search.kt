@@ -1,78 +1,34 @@
 package com.example.foodapp.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
-import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.foodapp.R
-import com.example.foodapp.adapter.menuItemAdapter
+import com.example.foodapp.adapter.VenueAdapter
 import com.example.foodapp.databinding.FragmentSearchBinding
+import com.example.foodapp.model.Venue
+import com.example.foodapp.apiService.VenueApi
+import kotlinx.coroutines.launch
 
 class Search : Fragment() {
 
     private lateinit var binding: FragmentSearchBinding
-    private lateinit var adapter: menuItemAdapter
+    private lateinit var adapter: VenueAdapter
 
-    private val items = mutableListOf<String>(
-        "Burger",
-        "Naan chapati",
-        "pizza max",
-        "jiye Bhutto",
-        "jiye Bhutto",
-        "jiye Bhutto",
-        "Burger",
-        "Naan chapati",
-        "pizza max",
-        "jiye Bhutto",
-        "jiye Bhutto",
-        "jiye Bhutto"
-    )
-    private val prices = mutableListOf<String>(
-        "$6",
-        "$10",
-        "$5",
-        "$100",
-        "$100",
-        "$100",
-        "$6",
-        "$10",
-        "$5",
-        "$100",
-        "$100",
-        "$100"
-    )
-    private val images = mutableListOf(
-        R.drawable.menu1,
-        R.drawable.menu2,
-        R.drawable.menu3,
-        R.drawable.menu4,
-        R.drawable.menu5,
-        R.drawable.menu6,
-        R.drawable.menu1,
-        R.drawable.menu2,
-        R.drawable.menu3,
-        R.drawable.menu4,
-        R.drawable.menu5,
-        R.drawable.menu6,
-    )
+    // Full list of venues from API
+    private val venues = mutableListOf<Venue>()
 
-    private val filterItems = mutableListOf<String>()
-    private val filterPrices = mutableListOf<String>()
-    private val filterImages = mutableListOf<Int>()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
+    // Filtered list for search
+    private val filteredVenues = mutableListOf<Venue>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -80,61 +36,60 @@ class Search : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = menuItemAdapter(filterItems, filterPrices, filterImages)
-        val view = binding.menuRecyclerView
-        view.adapter = adapter
-        view.layoutManager = LinearLayoutManager(requireContext())
+        adapter = VenueAdapter(filteredVenues)
+        binding.menuRecyclerView.adapter = adapter
+        binding.menuRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        //for search
+        // Fetch venues from API
+        fetchVenues()
+
+        // Setup search
         setUpSearchView()
-
-
-        // for all menu items
-        showAllMenu()
     }
 
-    private fun showAllMenu() {
-        filterItems.clear()
-        filterPrices.clear()
-        filterImages.clear()
+    private fun fetchVenues() {
+        lifecycleScope.launch {
+            val result = VenueApi.getVenues()
+            if (result.isSuccess) {
+                venues.clear()
+                venues.addAll(result.getOrDefault(emptyList()))
+                showAllVenues()
+            } else {
+                // Handle error, show toast or snackbar
+                val errorMessage = result.exceptionOrNull()?.message ?: "Failed to fetch venues"
+                // e.g., Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
-        filterItems.addAll(items)
-        filterPrices.addAll(prices)
-        filterImages.addAll(images)
-
+    private fun showAllVenues() {
+        filteredVenues.clear()
+        filteredVenues.addAll(venues)
         adapter.notifyDataSetChanged()
-
     }
 
     private fun setUpSearchView() {
-        binding.searchView.setOnQueryTextListener(object :SearchView.OnQueryTextListener{
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                filterMenuItems(query)
+                filterVenues(query)
                 return true
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                filterMenuItems(newText)
+                filterVenues(newText)
                 return true
             }
         })
     }
 
-    private fun filterMenuItems(query: String) {
-        filterItems.clear()
-        filterPrices.clear()
-        filterImages.clear()
-
-        items.forEachIndexed { index, item ->
-            if (item.contains(query, ignoreCase = true)){
-                filterItems.add(item)
-                filterPrices.add(prices[index])
-                filterImages.add(images[index])
-        } }
-
+    private fun filterVenues(query: String) {
+        filteredVenues.clear()
+        filteredVenues.addAll(
+            venues.filter {
+                it.venueName.contains(query, ignoreCase = true) ||
+                        it.city.contains(query, ignoreCase = true)
+            }
+        )
         adapter.notifyDataSetChanged()
-    }
-
-    companion object {
     }
 }

@@ -35,4 +35,6 @@
     <string name="save_information">Save Information</string>
     <string name="new_notification">New Notification</string>
     <string name="notifications">Notifications</string>
+    <string name="phone">Phone</string>
+    <string name="title_activity_maps">MapsActivity</string>
 </resources>

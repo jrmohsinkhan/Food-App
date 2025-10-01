@@ -37,41 +37,52 @@
                 tools:srcCompat="@tools:sample/avatars" />
 
             <TextView
-                android:id="@+id/food_name"
+                android:id="@+id/venue_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:fontFamily="@font/yeon_sung"
-                android:text="Food Name"
+                android:text="Venue Name"
                 android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/menu_item_image"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/price"
+                android:id="@+id/venue_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:fontFamily="@font/lato_black"
-                android:text="$7"
-                android:textColor="@color/textColor"
-                android:textSize="22sp"
-                app:layout_constraintBottom_toTopOf="@+id/add_to_cart"
-                app:layout_constraintEnd_toEndOf="@+id/add_to_cart"
-                app:layout_constraintStart_toStartOf="@+id/add_to_cart" />
+                android:layout_marginStart="16dp"
+                android:fontFamily="@font/yeon_sung"
+                android:text="Venue Location"
+                android:textSize="15sp"
+                app:layout_constraintStart_toEndOf="@+id/menu_item_image"
+                app:layout_constraintTop_toBottomOf="@+id/venue_name" />
+
+            <com.google.android.flexbox.FlexboxLayout
+                android:id="@+id/sports_container"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                app:flexWrap="wrap"
+                app:layout_constraintStart_toEndOf="@id/menu_item_image"
+                app:layout_constraintTop_toBottomOf="@id/venue_location"/>
+
+
+
 
             <TextView
-                android:id="@+id/add_to_cart"
+                android:id="@+id/view_details"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/add_to_cart"
                 android:fontFamily="@font/lato"
-                android:text="Add to Cart"
+                android:text="View Detail"
                 android:textColor="@color/white"
                 android:textSize="10sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

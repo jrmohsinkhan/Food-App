@@ -1,12 +1,15 @@
 package com.example.foodapp.adapter
 
 import android.R
+import android.content.Intent
 import android.media.Image
 import android.text.Layout
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.inputmethod.InputBinding
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.RecyclerView
+import com.example.foodapp.MapsActivity
 import com.example.foodapp.databinding.PopularItemBinding
 
 class popularItemAdapter (private val items: List<String>,private val prices: List<String>, private val images: List<Int>) : RecyclerView.Adapter<popularItemAdapter.popularItemViewHolder>() {
@@ -41,6 +44,12 @@ class popularItemAdapter (private val items: List<String>,private val prices: Li
             binding.foodName.text = item
             binding.price.text = price
             binding.popularItemImage.setImageResource(image)
+
+            binding.addToCart.setOnClickListener {
+                val context = binding.root.context
+                val intent = Intent(context, MapsActivity::class.java)
+                context.startActivity(intent)
+            }
         }
 
     }
