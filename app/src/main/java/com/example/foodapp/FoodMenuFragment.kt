@@ -1,31 +1,31 @@
 package com.example.foodapp
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.foodapp.adapter.menuItemAdapter
-import com.example.foodapp.databinding.CartItemBinding
+import com.example.foodapp.adapter.VenueAdapter
+import com.example.foodapp.apiService.VenueApi
 import com.example.foodapp.databinding.FragmentFoodMenuBinding
+import com.example.foodapp.model.Venue
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-
+import kotlinx.coroutines.launch
 
 class FoodMenuFragment : BottomSheetDialogFragment() {
 
     private lateinit var binding: FragmentFoodMenuBinding
+    private lateinit var adapter: VenueAdapter
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    // Full list of venues
+    private val venues = mutableListOf<Venue>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-
+    ): View {
         binding = FragmentFoodMenuBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -37,55 +37,25 @@ class FoodMenuFragment : BottomSheetDialogFragment() {
             dismiss()
         }
 
-        val items = mutableListOf<String>(
-            "Burger",
-            "Naan chapati",
-            "pizza max",
-            "jiye Bhutto",
-            "jiye Bhutto",
-            "jiye Bhutto",
-            "Burger",
-            "Naan chapati",
-            "pizza max",
-            "jiye Bhutto",
-            "jiye Bhutto",
-            "jiye Bhutto"
-        )
-        val prices = mutableListOf<String>(
-            "$6",
-            "$10",
-            "$5",
-            "$100",
-            "$100",
-            "$100",
-            "$6",
-            "$10",
-            "$5",
-            "$100",
-            "$100",
-            "$100"
-        )
-        val images = mutableListOf(
-            R.drawable.menu1,
-            R.drawable.menu2,
-            R.drawable.menu3,
-            R.drawable.menu4,
-            R.drawable.menu5,
-            R.drawable.menu6,
-            R.drawable.menu1,
-            R.drawable.menu2,
-            R.drawable.menu3,
-            R.drawable.menu4,
-            R.drawable.menu5,
-            R.drawable.menu6,
-        )
+        adapter = VenueAdapter(venues)
+        binding.menuRecyclerView.adapter = adapter
+        binding.menuRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        val adapter = menuItemAdapter(items, prices, images)
-        val view = binding.menuRecyclerView
-        view.adapter = adapter
-        view.layoutManager = LinearLayoutManager(requireContext())
+        // Fetch venues from API
+        fetchVenues()
     }
 
-    companion object {
+    private fun fetchVenues() {
+        lifecycleScope.launch {
+            val result = VenueApi.getVenues()
+            if (result.isSuccess) {
+                venues.clear()
+                venues.addAll(result.getOrDefault(emptyList()))
+                adapter.notifyDataSetChanged()
+            } else {
+                val errorMessage = result.exceptionOrNull()?.message ?: "Failed to fetch venues"
+                // TODO: Show error to user, e.g., Toast or Snackbar
+            }
+        }
     }
 }

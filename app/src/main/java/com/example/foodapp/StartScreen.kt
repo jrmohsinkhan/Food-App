@@ -2,8 +2,6 @@ package com.example.foodapp
 
 import android.content.Intent
 import android.os.Bundle
-import android.renderscript.ScriptGroup
-import android.view.inputmethod.InputBinding
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat

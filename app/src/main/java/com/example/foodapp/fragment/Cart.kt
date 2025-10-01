@@ -6,11 +6,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.foodapp.R
 import com.example.foodapp.adapter.cartItemAdapter
+import com.example.foodapp.apiService.NotificationApi
 import com.example.foodapp.databinding.CartItemBinding
 import com.example.foodapp.databinding.FragmentCartBinding
+import com.example.foodapp.model.ConfirmationResult
+import kotlinx.coroutines.launch
 
 class Cart : Fragment() {
 
@@ -59,8 +63,38 @@ class Cart : Fragment() {
         }
         binding.cartItemRecyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.cartItemRecyclerView.adapter = adapter
+
+        binding.proceedButton.setOnClickListener {
+            confirmBooking()
+        }
     }
 
+    private fun confirmBooking() {
+        lifecycleScope.launch {
+            // You might want to show a loading indicator here (e.g., binding.progressBar.visibility = View.VISIBLE)
+
+            when (val result = NotificationApi.confirmBooking()) {
+
+                is ConfirmationResult.Success -> {
+                    // Success Case: API call succeeded (HTTP 200)
+                    Toast.makeText(requireContext(), result.message, Toast.LENGTH_LONG).show()
+                    // Add navigation logic or cart clearing here
+                }
+
+                is ConfirmationResult.Error -> {
+                    // API Error Case: Server returned an explicit error (e.g., 400 No tokens)
+                    Toast.makeText(requireContext(), "Error: ${result.message}", Toast.LENGTH_LONG).show()
+                }
+
+                is ConfirmationResult.NetworkError -> {
+                    // Network/Server Failure Case: Connection issues or unhandled 5xx errors
+                    Toast.makeText(requireContext(), "Network Failed: ${result.message}", Toast.LENGTH_LONG).show()
+                }
+            }
+
+            // You might want to hide the loading indicator here (e.g., binding.progressBar.visibility = View.GONE)
+        }
+    }
 
 
     companion object {

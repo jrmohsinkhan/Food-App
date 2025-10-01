@@ -17,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/proceed_button"
+        app:layout_constraintBottom_toTopOf="@id/logout_button"
         >
 
         <LinearLayout
@@ -163,7 +163,7 @@
     </ScrollView>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/proceed_button"
+        android:id="@+id/logout_button"
         android:layout_width="match_parent"
         android:layout_height="57dp"
         android:layout_marginBottom="16dp"
@@ -171,7 +171,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/whitebutton"
-        android:text="@string/save_information"
+        android:text="Logout"
         android:textColor="@color/textColor"
         android:elevation="10dp"
         app:layout_constraintStart_toStartOf="parent"
